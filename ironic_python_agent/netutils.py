@@ -146,7 +146,11 @@ def _receive_lldp_packets(sock):
     :param sock: A bound socket
     :return: A list of tuples in the form (lldp_type, lldp_data)
     """
-    pkt = sock.recv(1600)
+    try:
+        pkt = sock.recv(1600)
+    except Exception:
+        return []
+
     # Filter invalid packets
     if not pkt or len(pkt) < 14:
         return []
